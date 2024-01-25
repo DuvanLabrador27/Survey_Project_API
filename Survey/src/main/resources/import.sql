@@ -1,0 +1,5 @@
+INSERT INTO survey (question) VALUES('QUESTION 1')
+INSERT INTO survey (question) VALUES('QUESTION 2')
+INSERT INTO survey (question) VALUES('QUESTION 3')
+INSERT INTO survey (question) VALUES('QUESTION 4')
+INSERT INTO survey (question) VALUES('QUESTION 5')
