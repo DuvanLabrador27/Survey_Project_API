@@ -7,7 +7,9 @@ import com.duvanlabrador.Survey.Repository.SurveyRepository;
 import com.duvanlabrador.Survey.Service.Interface.SurveyService;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,21 +31,37 @@ public class SurveyImpl implements SurveyService {
 
     @Override
     public SurveyDTO getSurveyForId(Long surveyId) {
-        return null;
+        SurveyEntity surveyEntity = this.surveyRepository.findById(surveyId).get();
+        SurveyDTO surveyDTO = this.surveyMapper.surveyToGetDTO(surveyEntity);
+        return surveyDTO;
     }
 
     @Override
     public SurveyDTO createSurvey(SurveyDTO surveyDTO) {
-        return null;
+        SurveyEntity surveyEntity = this.surveyMapper.surveyToGetEntity(surveyDTO);
+        SurveyEntity saveSurvey = this.surveyRepository.save(surveyEntity);
+        SurveyDTO surveydto = this.surveyMapper.surveyToGetDTO(saveSurvey);
+        return surveydto;
     }
 
     @Override
     public SurveyDTO updateSurvey(Long surveyId, SurveyDTO surveyDTO) {
-        return null;
+        SurveyEntity surveyEntity = this.surveyRepository.findById(surveyId).orElseThrow();
+        surveyEntity.setQuestion(surveyDTO.getQuestion());
+        SurveyEntity updateSurvey = this.surveyRepository.save(surveyEntity);
+        SurveyDTO survey = this.surveyMapper.surveyToGetDTO(updateSurvey);
+        return survey;
     }
 
     @Override
     public Boolean deleteSurvey(Long surveyId) {
-        return null;
+        Optional<SurveyEntity> surveyEntity = this.surveyRepository.findById(surveyId);
+        if (surveyEntity.isPresent()){
+            surveyRepository.deleteById(surveyId);
+            return true;
+        }else {
+            return false;
+        }
+
     }
 }
